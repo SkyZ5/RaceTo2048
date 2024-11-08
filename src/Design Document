@@ -1,0 +1,17 @@
+The game class:
+
+Every square in the 4 x 4 grid will have values associated with it:
+Int value
+Boolean empty
+A method that creates a square that appears in a random box that is empty, with a random number either 2 or 4
+A method for each direction that the user chooses to move in
+A method that creates the game as a giant print statement basically.
+
+There will need to be a square class that is used in the game class:
+Square class contains:
+A method to add
+A method to remove
+
+Main class:
+Check constantly for input
+
