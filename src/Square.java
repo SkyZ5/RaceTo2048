@@ -17,4 +17,7 @@ public class Square {
     public boolean isEmpty() {
         return empty;
     }
+    public int getValue(){
+        return value;
+    }
 }
