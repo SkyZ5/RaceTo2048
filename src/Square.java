@@ -12,6 +12,7 @@ public class Square {
         empty = false;
     }
     public void removeValue() {
+        empty = true;
         value = 0;
     }
     public boolean isEmpty() {
