@@ -1,10 +1,9 @@
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Arrays;
 import java.util.ArrayList;
 
 
 public class Game {
-    private Square[] squares = new Square[16];
+    private final Square[] squares = new Square[16];
 
     public Game() {
         for(int i = 0; i < 16; i ++) {
@@ -12,7 +11,7 @@ public class Game {
         }
     }
     public void squareAppear(){
-        Boolean works = false;
+        boolean works = false;
         double percentage = Math.random();
         int randomValue;
         if (percentage > 0.89){
@@ -21,14 +20,14 @@ public class Game {
         else {
             randomValue = 2;
         }
+        int[] numbers = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        ArrayList<Integer> arr_numbers = new ArrayList<Integer>();
+        for (int i : numbers)
+        {
+            arr_numbers.add(i);
+        }
         while (!(works)){
-            int[] numbers = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-            ArrayList<Integer> arr_numbers = new ArrayList<Integer>();
-            for (int i : numbers)
-            {
-                arr_numbers.add(i);
-            }
-            int randomIndex = (int) (Math.random() * numbers.length);
+            int randomIndex = (int) (Math.random() * arr_numbers.size());
             if (squares[(arr_numbers.get(randomIndex))].isEmpty()) {
                 squares[arr_numbers.get(randomIndex)].giveValue(randomValue);
                 works = true;
@@ -37,6 +36,9 @@ public class Game {
             else {
                 arr_numbers.remove(randomIndex);
             }
+            if (arr_numbers.isEmpty()) {
+                works = true;
+            }
         }
     }
     public void moveUp() {
@@ -44,10 +46,9 @@ public class Game {
         for (int i = 0; i < 4; i ++) {
             String[] tempValues = createRow(i, "up");
             for (int n = 0; n < 4; n ++) {
-                values[n + (i * 4)] = tempValues[n];
+                values[i + (n * 4)] = tempValues[n];
             }
         }
-        System.out.println(Arrays.toString(values));
         for (int i = 0; i < 16; i ++) {
             try {
                 int value = Integer.parseInt(values[i]);
@@ -77,16 +78,40 @@ public class Game {
         }
     }
     public void moveRight() {
-        System.out.println(Arrays.toString(createRow(0,"right")));
-        System.out.println(Arrays.toString(createRow(1,"right")));
-        System.out.println(Arrays.toString(createRow(2,"right")));
-        System.out.println(Arrays.toString(createRow(3,"right")));
+        String[] values = new String[16];
+        for (int i = 0; i < 4; i ++) {
+            String[] tempValues = createRow(i, "right");
+            for (int n = 0; n < 4; n ++) {
+                values[((i + 1) * 4) - 1 - n ] = tempValues[n];
+            }
+        }
+        for (int i = 0; i < 16; i ++) {
+            try {
+                int value = Integer.parseInt(values[i]);
+                squares[i].giveValue(value);
+            }
+            catch(Exception e){
+                squares[i].removeValue();
+            }
+        }
     }
     public void moveDown() {
-        System.out.println(Arrays.toString(createRow(0,"down")));
-        System.out.println(Arrays.toString(createRow(1,"down")));
-        System.out.println(Arrays.toString(createRow(2,"down")));
-        System.out.println(Arrays.toString(createRow(3,"down")));
+        String[] values = new String[16];
+        for (int i = 0; i < 4; i ++) {
+            String[] tempValues = createRow(i, "down");
+            for (int n = 0; n < 4; n ++) {
+                values[15 - i - (n * 4)] = tempValues[n];
+            }
+        }
+        for (int i = 0; i < 16; i ++) {
+            try {
+                int value = Integer.parseInt(values[i]);
+                squares[i].giveValue(value);
+            }
+            catch(Exception e){
+                squares[i].removeValue();
+            }
+        }
     }
     public String[] createRow(int integer, String str) {
         String[] strings = new String[4];
@@ -124,7 +149,7 @@ public class Game {
         }
         else if (str.equals("down")) {
             int n = 0;
-            for (int i = 15 - (integer * 4); i >= 15 - (integer * 4 + 3); i --) {
+            for (int i = 15 - integer; i >= 3 - integer; i -= 4) {
                 if (squares[i].isEmpty()) {
                     strings[n] = "empty";
                 }
@@ -152,7 +177,7 @@ public class Game {
                     arrayList.remove(i + 1);
                 }
             }
-            catch (Exception e) {
+            catch (Exception _) {
             }
         }
         String[] finalArray = new String[4];
