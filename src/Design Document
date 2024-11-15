@@ -1,16 +1,21 @@
 The game class:
+When the game class conductor is run it should create a list that contains 16 square objects
 
 Every square in the 4 x 4 grid will have values associated with it:
-Int value
-Boolean empty
 A method that creates a square that appears in a random box that is empty, with a random number either 2 or 4
 A method for each direction that the user chooses to move in
 A method that creates the game as a giant print statement basically.
 
 There will need to be a square class that is used in the game class:
+
 Square class contains:
-A method to add
-A method to remove
+Variables:
+int value
+boolean empty
+A method to give a value
+A method to remove a value
+A method to get the value
+A method to get the boolean empty
 
 Main class:
 Check constantly for input

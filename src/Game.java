@@ -191,7 +191,24 @@ public class Game {
         }
         return finalArray;
     }
-    public void display(int integer){
+    public void display(){
+        int[][] board = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+        for(int i = 0; i < 4; i++){
+            for(int n = 0; n < 4; n ++){
+                board[i][n] = squares[i * 4 + n].getValue();
+            }
+        }
+        printBoard(board);
+    }
+    public void printBoard(int[][] board) {
+        for (int i = 0; i < 4; i ++) {
+            for ( int n = 0; n < 4; n ++){
+                System.out.print(String.format("4%d", board[i][n]) + " ");
+            }
+            System.out.println();
+        }
+    }
+    public void display1(int integer){
         String[] strings = new String[4];
         int n = 0;
         for (int i = integer * 4; i < (integer * 4) + 4; i ++) {
