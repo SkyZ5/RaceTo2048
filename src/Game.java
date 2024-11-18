@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 
@@ -203,7 +204,7 @@ public class Game {
     public void printBoard(int[][] board) {
         for (int i = 0; i < 4; i ++) {
             for ( int n = 0; n < 4; n ++){
-                System.out.print(String.format("4%d", board[i][n]) + " ");
+                System.out.print(String.format("%4d", board[i][n]) + " ");
             }
             System.out.println();
         }
@@ -225,5 +226,10 @@ public class Game {
             arr_strings.add(i);
         }
         System.out.println(arr_strings);
+    }
+    public void clearConsole() {
+        for (int i = 0; i < 100; i ++) {
+            System.out.println();
+        }
     }
 }

@@ -1,37 +1,26 @@
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IsKeyPressed {
-    private static volatile boolean wPressed = false;
-    public static boolean isWPressed() {
-        synchronized (IsKeyPressed.class) {
-            return wPressed;
-        }
-    }
 
-    public static void main(String[] args) {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+    private static final Map<Integer, Boolean> pressedKeys = new HashMap<>();
 
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (IsKeyPressed.class) {
-                    switch (ke.getID()) {
-                        case KeyEvent.KEY_PRESSED:
-                            if (ke.getKeyCode() == KeyEvent.VK_W) {
-                                wPressed = true;
-                            }
-                            break;
-
-                        case KeyEvent.KEY_RELEASED:
-                            if (ke.getKeyCode() == KeyEvent.VK_W) {
-                                wPressed = false;
-                            }
-                            break;
-                    }
-                    return false;
-                }
+    static {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(event -> {
+            synchronized (IsKeyPressed.class) {
+                if (event.getID() == KeyEvent.KEY_PRESSED) pressedKeys.put(event.getKeyCode(), true);
+                else if (event.getID() == KeyEvent.KEY_RELEASED) pressedKeys.put(event.getKeyCode(), false);
+                return false;
             }
         });
+    }
+
+    public static boolean isKeyPressed(int keyCode) {
+        return pressedKeys.getOrDefault(keyCode, false);
+    }
+    public void printKeys() {
+        System.out.println(isKeyPressed(event.getKeyCode()));
     }
 }
