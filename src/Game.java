@@ -195,6 +195,7 @@ public class Game {
     public void display(){
         int[][] board = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
         for(int i = 0; i < 4; i++){
+
             for(int n = 0; n < 4; n ++){
                 board[i][n] = squares[i * 4 + n].getValue();
             }
@@ -203,29 +204,15 @@ public class Game {
     }
     public void printBoard(int[][] board) {
         for (int i = 0; i < 4; i ++) {
+            System.out.println("+-----+-----+-----+-----+");
+            System.out.print("|");
             for ( int n = 0; n < 4; n ++){
                 System.out.print(String.format("%4d", board[i][n]) + " ");
+                System.out.print("|");
             }
             System.out.println();
         }
-    }
-    public void display1(int integer){
-        String[] strings = new String[4];
-        int n = 0;
-        for (int i = integer * 4; i < (integer * 4) + 4; i ++) {
-            if (squares[i].isEmpty()) {
-                strings[n] = "empty";
-            } else {
-                strings[n] = squares[i].getValue() + "";
-            }
-            n++;
-        }
-        ArrayList<String> arr_strings = new ArrayList<String>();
-        for (String i : strings)
-        {
-            arr_strings.add(i);
-        }
-        System.out.println(arr_strings);
+        System.out.println("+-----+-----+-----+-----+");
     }
     public void clearConsole() {
         for (int i = 0; i < 100; i ++) {

@@ -1,26 +1,18 @@
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 public class IsKeyPressed {
-
-    private static final Map<Integer, Boolean> pressedKeys = new HashMap<>();
-
-    static {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(event -> {
-            synchronized (IsKeyPressed.class) {
-                if (event.getID() == KeyEvent.KEY_PRESSED) pressedKeys.put(event.getKeyCode(), true);
-                else if (event.getID() == KeyEvent.KEY_RELEASED) pressedKeys.put(event.getKeyCode(), false);
-                return false;
-            }
-        });
+    public char getKeyPress() throws IOException{
+        if (System.in.available() > 0) {
+            return (char) System.in.read();
+        }
+        return '\0';
     }
-
-    public static boolean isKeyPressed(int keyCode) {
-        return pressedKeys.getOrDefault(keyCode, false);
+    public void setRawMode() throws IOException, InterruptedException {
+        String[] cmd = {"/bin/sh", "-c", "stty raw -echo </dev/tty"};
+        Runtime.getRuntime().exec(cmd).waitFor();
     }
-    public void printKeys() {
-        System.out.println(isKeyPressed(event.getKeyCode()));
+    public void resetTerminal() throws  IOException, InterruptedException {
+        String[] cmd = {"/bin/sh", "-c", "stty sane </dev/tty"};
+        Runtime.getRuntime().exec(cmd).waitFor();
     }
 }
