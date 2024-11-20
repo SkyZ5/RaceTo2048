@@ -10,6 +10,9 @@ public class Main {
     public static void main(String[] argv) throws IOException, InterruptedException {
         boolean gameOver = false;
         boolean chosen = false;
+        boolean won = false;
+        boolean lost = false;
+        int gameStatus = 0;
         int choice = '\0';
         Game game = new Game();
         Scanner s = new Scanner(System.in);
@@ -38,14 +41,48 @@ public class Main {
                 switch (move) {
                     case 'w':
                         game.moveUp();
+                        game.moved();
+                        break;
                     case 'a':
                         game.moveLeft();
+                        game.moved();
+                        break;
                     case 's':
                         game.moveDown();
+                        game.moved();
+                        break;
                     case 'd':
                         game.moveRight();
+                        game.moved();
+                        break;
                 }
-                game.display();
+            }
+            gameStatus = game.isGameOver();
+            if (gameStatus == 2) {
+                won = true;
+                System.out.println("YOU WON CONGRATS :D");
+                gameOver = true;
+            }
+            else if (gameStatus == 1) {
+                lost = true;
+                boolean validInput = false;
+                System.out.println("You lost :(");
+                int restart = 0;
+                while (!validInput) {
+                    System.out.print("If you want to play again return 1, else return 0: ");
+                    try {
+                        restart = Integer.parseInt(s.nextLine());
+                        validInput = true;
+                    } catch (Exception e) {
+                    }
+                }
+                if (restart != 1) {
+                    gameOver = true;
+                }
+                else {
+                    game.resetBoard();
+                    gameStatus = 0;
+                }
             }
         }
         if (choice == 2) {

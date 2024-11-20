@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class Game {
     private final Square[] squares = new Square[16];
+    private boolean canMove = true;
+    private boolean lost = false;
+    private boolean won = false;
 
     public Game() {
         for(int i = 0; i < 16; i ++) {
@@ -27,28 +30,54 @@ public class Game {
         {
             arr_numbers.add(i);
         }
-        while (!(works)){
-            int randomIndex = (int) (Math.random() * arr_numbers.size());
-            if (squares[(arr_numbers.get(randomIndex))].isEmpty()) {
-                squares[arr_numbers.get(randomIndex)].giveValue(randomValue);
-                works = true;
-                System.out.println(randomIndex + ", " + randomValue);
+        if (canMove) {
+            while (!(works)) {
+                int randomIndex = (int) (Math.random() * arr_numbers.size());
+                if (squares[(arr_numbers.get(randomIndex))].isEmpty()) {
+                    squares[arr_numbers.get(randomIndex)].giveValue(randomValue);
+                    works = true;
+                } else {
+                    arr_numbers.remove(randomIndex);
+                }
+                if (arr_numbers.isEmpty()) {
+                    works = true;
+                }
             }
-            else {
-                arr_numbers.remove(randomIndex);
+        }
+        else {
+            boolean hasEmptyBox = false;
+            for (int i = 0; i < 16; i++) {
+                if (squares[i].isEmpty()){
+                    hasEmptyBox = true;
+                }
             }
-            if (arr_numbers.isEmpty()) {
-                works = true;
+            if (!hasEmptyBox){
+                lost = true;
+            }
+            else{
+                canMove = true;
             }
         }
     }
     public void moveUp() {
+        String[] originalValues = new String[16];
+        for (int i = 0; i < 16; i++){
+            if (squares[i].isEmpty()){
+                originalValues[i] = "empty";
+            }
+            else {
+                originalValues[i] = squares[i].getValue() +"";
+            }
+        }
         String[] values = new String[16];
         for (int i = 0; i < 4; i ++) {
             String[] tempValues = createRow(i, "up");
             for (int n = 0; n < 4; n ++) {
                 values[i + (n * 4)] = tempValues[n];
             }
+        }
+        if (Arrays.equals(originalValues, values)){
+            canMove = false;
         }
         for (int i = 0; i < 16; i ++) {
             try {
@@ -61,12 +90,24 @@ public class Game {
         }
     }
     public void moveLeft() {
+        String[] originalValues = new String[16];
+        for (int i = 0; i < 16; i++){
+            if (squares[i].isEmpty()){
+                originalValues[i] = "empty";
+            }
+            else {
+                originalValues[i] = squares[i].getValue() +"";
+            }
+        }
         String[] values = new String[16];
         for (int i = 0; i < 4; i ++) {
             String[] tempValues = createRow(i, "left");
             for (int n = 0; n < 4; n ++) {
                 values[n + (i * 4)] = tempValues[n];
             }
+        }
+        if (Arrays.equals(originalValues, values)){
+            canMove = false;
         }
         for (int i = 0; i < 16; i ++) {
             try {
@@ -79,12 +120,24 @@ public class Game {
         }
     }
     public void moveRight() {
+        String[] originalValues = new String[16];
+        for (int i = 0; i < 16; i++){
+            if (squares[i].isEmpty()){
+                originalValues[i] = "empty";
+            }
+            else {
+                originalValues[i] = squares[i].getValue() +"";
+            }
+        }
         String[] values = new String[16];
         for (int i = 0; i < 4; i ++) {
             String[] tempValues = createRow(i, "right");
             for (int n = 0; n < 4; n ++) {
                 values[((i + 1) * 4) - 1 - n ] = tempValues[n];
             }
+        }
+        if (Arrays.equals(originalValues, values)){
+            canMove = false;
         }
         for (int i = 0; i < 16; i ++) {
             try {
@@ -97,12 +150,24 @@ public class Game {
         }
     }
     public void moveDown() {
+        String[] originalValues = new String[16];
+        for (int i = 0; i < 16; i++){
+            if (squares[i].isEmpty()){
+                originalValues[i] = "empty";
+            }
+            else {
+                originalValues[i] = squares[i].getValue() +"";
+            }
+        }
         String[] values = new String[16];
         for (int i = 0; i < 4; i ++) {
             String[] tempValues = createRow(i, "down");
             for (int n = 0; n < 4; n ++) {
                 values[15 - i - (n * 4)] = tempValues[n];
             }
+        }
+        if (Arrays.equals(originalValues, values)){
+            canMove = false;
         }
         for (int i = 0; i < 16; i ++) {
             try {
@@ -218,5 +283,27 @@ public class Game {
         for (int i = 0; i < 100; i ++) {
             System.out.println();
         }
+    }
+    public void moved(){
+        clearConsole();
+        squareAppear();
+        display();
+    }
+    public int isGameOver() {
+        if (lost) {
+            return 1;
+        }
+        for (int i = 0; i < 16; i ++) {
+            if (squares[i]. getValue() == 2048) {
+                return 2;
+            }
+        }
+            return 0;
+    }
+    public void resetBoard() {
+        for(int i = 0; i < 16; i ++){
+            squares[i].removeValue();
+        }
+        moved();
     }
 }
