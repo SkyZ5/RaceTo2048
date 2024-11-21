@@ -8,6 +8,16 @@ public class Game {
     private boolean canMove = true;
     private boolean lost = false;
     private boolean won = false;
+    private final String resetAnsi = "\u001B[0m";
+    public static final String getAnsiRed = "\u001B[31m";
+    public static final String getAnsiGreen = "\u001B[32m";
+    public static final String getAnsiYellow = "\u001B[33m";
+    public static final String getAnsiBlue = "\u001B[34m";
+    public static final String getAnsiPurple = "\u001B[35m";
+    public static final String getAnsiCyan = "\u001B[36m";
+    public static final String getAnsiWhite = "\u001B[37m";
+    public static final String getAnsi43 = "\u001B[43m";
+    public static final String getAnsi47 = "\u001B[47m";
 
     public Game() {
         for(int i = 0; i < 16; i ++) {
@@ -269,15 +279,58 @@ public class Game {
     }
     public void printBoard(int[][] board) {
         for (int i = 0; i < 4; i ++) {
-            System.out.println("+-----+-----+-----+-----+");
+            System.out.println("+----+----+----+----+");
             System.out.print("|");
             for ( int n = 0; n < 4; n ++){
-                System.out.print(String.format("%4d", board[i][n]) + " ");
-                System.out.print("|");
+                if (board[i][n] == 2048) {
+                    System.out.print(getAnsi47 + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 1024) {
+                    System.out.print(getAnsi43 + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 512) {
+                    System.out.print(getAnsiWhite + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 256) {
+                    System.out.print(getAnsiCyan + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 128) {
+                    System.out.print(getAnsiGreen + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 64) {
+                    System.out.print(getAnsiBlue + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 32) {
+                    System.out.print(getAnsiPurple + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 16) {
+                    System.out.print(getAnsiRed + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else if (board[i][n] == 8) {
+                    System.out.print(getAnsiYellow + String.format("%4d", board[i][n]) + resetAnsi);
+                    System.out.print("|");
+                }
+                else {
+                    if (board[i][n] != 0) {
+                        System.out.print(String.format("%4d", board[i][n]) + "");
+                        System.out.print("|");
+                    }
+                    else {
+                        System.out.print("    |");
+                    }
+                }
             }
             System.out.println();
         }
-        System.out.println("+-----+-----+-----+-----+");
+        System.out.println("+----+----+----+----+");
     }
     public void clearConsole() {
         for (int i = 0; i < 100; i ++) {
