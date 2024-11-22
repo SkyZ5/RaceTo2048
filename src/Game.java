@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 
@@ -55,16 +54,8 @@ public class Game {
             }
         }
         else {
-            boolean hasEmptyBox = false;
-            for (int i = 0; i < 16; i++) {
-                if (squares[i].isEmpty()){
-                    hasEmptyBox = true;
-                }
-            }
-            if (!hasEmptyBox){
-                lost = true;
-            }
-            else{
+            checkIfLost();
+            if(!lost){
                 canMove = true;
             }
         }
@@ -253,8 +244,7 @@ public class Game {
                     arrayList.remove(i + 1);
                 }
             }
-            catch (Exception _) {
-            }
+            catch (Exception e) {}
         }
         String[] finalArray = new String[4];
         for (int i = 0; i < 4;i ++) {
@@ -358,5 +348,73 @@ public class Game {
             squares[i].removeValue();
         }
         moved();
+    }
+    public Square[] createTempSquares() {
+        Square[] tempSquares = new Square[16];
+        for(int i = 0; i < 16; i ++) {
+            tempSquares[i] = new Square(squares[i].getValue(), squares[i].isEmpty());
+        }
+        return tempSquares;
+    }
+    public void checkIfLost() {
+        Square[] temp = createTempSquares();
+        moveUp();
+        Square[] test1 = createTempSquares();
+        for(int i = 0; i < 16; i ++) {
+            squares[i].giveValue(temp[i].getValue());
+            if (temp[i].isEmpty()){
+                squares[i].removeValue();
+            }
+        }
+        moveRight();
+        Square[] test2 = createTempSquares();
+        for(int i = 0; i < 16; i ++) {
+            squares[i].giveValue(temp[i].getValue());
+            if (temp[i].isEmpty()){
+                squares[i].removeValue();
+            }
+        }
+        moveDown();
+        Square[] test3 = createTempSquares();
+        for(int i = 0; i < 16; i ++) {
+            squares[i].giveValue(temp[i].getValue());
+            if (temp[i].isEmpty()){
+                squares[i].removeValue();
+            }
+        }
+        moveLeft();
+        Square[] test4 = createTempSquares();
+        for(int i = 0; i < 16; i ++) {
+            squares[i].giveValue(temp[i].getValue());
+            if (temp[i].isEmpty()){
+                squares[i].removeValue();
+            }
+        }
+        int[] tempList = new int[16];
+        int[] test1List = new int[16];
+        int[] test2List = new int[16];
+        int[] test3List = new int[16];
+        int[] test4List = new int[16];
+        for(int i = 0; i < 16; i++){
+            tempList[i] = temp[i].getValue();
+        }
+        for(int i = 0; i < 16; i++){
+            test1List[i] = test1[i].getValue();
+        }
+        for(int i = 0; i < 16; i++){
+            test2List[i] = test2[i].getValue();
+        }
+        for(int i = 0; i < 16; i++){
+            test3List[i] = test3[i].getValue();
+        }
+        for(int i = 0; i < 16; i++){
+            test4List[i] = test4[i].getValue();
+        }
+        if (Arrays.equals(tempList, test1List) && Arrays.equals(tempList,test2List) && Arrays.equals(tempList,test3List) && Arrays.equals(tempList,test4List)) {
+            lost = true;
+        }
+        else{
+            lost = false;
+        }
     }
 }

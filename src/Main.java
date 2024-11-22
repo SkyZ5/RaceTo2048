@@ -64,8 +64,8 @@ public class Main {
                 boolean validInput = false;
                 System.out.println("You lost :(");
                 int restart = 0;
+                System.out.print("If you want to play again return 1, else return 0: ");
                 while (!validInput) {
-                    System.out.print("If you want to play again return 1, else return 0: ");
                     try {
                         restart = Integer.parseInt(s.nextLine());
                         validInput = true;
