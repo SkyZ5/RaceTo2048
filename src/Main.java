@@ -6,9 +6,7 @@ public class Main {
     public static void main(String[] argv) throws IOException, InterruptedException {
         boolean gameOver = false;
         boolean chosen = false;
-        boolean won = false;
-        boolean lost = false;
-        int gameStatus = 0;
+        int gameStatus;
         int choice = '\0';
         Game game = new Game();
         Scanner s = new Scanner(System.in);
@@ -55,12 +53,10 @@ public class Main {
             }
             gameStatus = game.isGameOver();
             if (gameStatus == 2) {
-                won = true;
                 System.out.println("YOU WON CONGRATS :D");
                 gameOver = true;
             }
             else if (gameStatus == 1) {
-                lost = true;
                 boolean validInput = false;
                 System.out.println("You lost :(");
                 int restart = 0;

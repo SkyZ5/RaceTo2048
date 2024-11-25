@@ -6,7 +6,6 @@ public class Game {
     private final Square[] squares = new Square[16];
     private boolean canMove = true;
     private boolean lost = false;
-    private boolean won = false;
     private final String resetAnsi = "\u001B[0m";
     public static final String getAnsiRed = "\u001B[31m";
     public static final String getAnsiGreen = "\u001B[32m";
