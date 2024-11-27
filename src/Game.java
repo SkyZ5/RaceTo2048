@@ -1,12 +1,20 @@
 import java.util.Arrays;
 import java.util.ArrayList;
 
-
+// Game class handles all the logic for 2048
 public class Game {
+
+    // Square list that holds 16 square objects in a list
     private final Square[] squares = new Square[16];
+
+    // Boolean of if there are any changes to the board when the user moves
     private boolean canMove = true;
+
+    // Boolean of whether the user has lost the game or not
     private boolean lost = false;
-    private final String resetAnsi = "\u001B[0m";
+
+    // All Strings of the code values of colors
+    public static final String resetAnsi = "\u001B[0m";
     public static final String getAnsiRed = "\u001B[31m";
     public static final String getAnsiGreen = "\u001B[32m";
     public static final String getAnsiYellow = "\u001B[33m";
@@ -17,11 +25,17 @@ public class Game {
     public static final String getAnsi43 = "\u001B[43m";
     public static final String getAnsi47 = "\u001B[47m";
 
+    // Constructor initates and creates the list with 16 squares
     public Game() {
         for(int i = 0; i < 16; i ++) {
             squares[i] = new Square(0, true);
         }
     }
+
+    // Method creates a list that starts with 16 values
+    // It gets a random value either 2 or 4
+    // Gets random numbers that are removed from the list when that value is already taken
+    // When there are no more choices in the list then the user has no place a square can appear
     public void squareAppear(){
         boolean works = false;
         double percentage = Math.random();
@@ -59,6 +73,10 @@ public class Game {
             }
         }
     }
+
+    // Creates rows for up with values and combines them
+    // Checks if anything on the board changed, if not then don't make a square appear
+    // Update the values in the Squares list
     public void moveUp() {
         String[] originalValues = new String[16];
         for (int i = 0; i < 16; i++){
@@ -89,6 +107,10 @@ public class Game {
             }
         }
     }
+
+    // Creates rows for left with values and combines them
+    // Checks if anything on the board changed, if not then don't make a square appear
+    // Update the values in the Squares list
     public void moveLeft() {
         String[] originalValues = new String[16];
         for (int i = 0; i < 16; i++){
@@ -119,6 +141,10 @@ public class Game {
             }
         }
     }
+
+    // Creates rows for right with values and combines them
+    // Checks if anything on the board changed, if not then don't make a square appear
+    // Update the values in the Squares list
     public void moveRight() {
         String[] originalValues = new String[16];
         for (int i = 0; i < 16; i++){
@@ -149,6 +175,10 @@ public class Game {
             }
         }
     }
+
+    // Creates rows for down with values and combines them
+    // Checks if anything on the board changed, if not then don't make a square appear
+    // Update the values in the Squares list
     public void moveDown() {
         String[] originalValues = new String[16];
         for (int i = 0; i < 16; i++){
@@ -179,6 +209,8 @@ public class Game {
             }
         }
     }
+
+    //Method that depending on which direction creates rows for the given direction
     public String[] createRow(int integer, String str) {
         String[] strings = new String[4];
         if (str.equals("up")) {
@@ -232,6 +264,8 @@ public class Game {
         }
         return combine(arr_strings);
     }
+
+    //Method that combines the row and then returns a Array list with the new values
     public String[] combine(ArrayList<String> arrayList){
         while(arrayList.contains("empty")) {
             arrayList.remove("empty");
@@ -256,6 +290,8 @@ public class Game {
         }
         return finalArray;
     }
+
+    // Creates a list with list that gives each value a specific square
     public void display(){
         int[][] board = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
         for(int i = 0; i < 4; i++){
@@ -266,6 +302,8 @@ public class Game {
         }
         printBoard(board);
     }
+
+    //Print board prints the board based off the list in display
     public void printBoard(int[][] board) {
         for (int i = 0; i < 4; i ++) {
             System.out.println("+----+----+----+----+");
@@ -321,16 +359,22 @@ public class Game {
         }
         System.out.println("+----+----+----+----+");
     }
+
+    // Prints 100 blank lines of code to basically refresh the screen
     public void clearConsole() {
         for (int i = 0; i < 100; i ++) {
             System.out.println();
         }
     }
+
+    // A combination of clearing console making a square appear and displaying the game
     public void moved(){
         clearConsole();
         squareAppear();
         display();
     }
+
+    // Checks of lost is true or if there is a single value that is 2048
     public int isGameOver() {
         if (lost) {
             return 1;
@@ -342,12 +386,16 @@ public class Game {
         }
             return 0;
     }
+
+    // Resets the board by removing the value in all the squares
     public void resetBoard() {
         for(int i = 0; i < 16; i ++){
             squares[i].removeValue();
         }
         moved();
     }
+
+    // For convenience to create temporary list
     public Square[] createTempSquares() {
         Square[] tempSquares = new Square[16];
         for(int i = 0; i < 16; i ++) {
@@ -355,6 +403,10 @@ public class Game {
         }
         return tempSquares;
     }
+
+    // Creates temporary list and compares them with list of the board after a move is made
+    // Naturally if nothing changes after all four movements that means there are no moves
+    // And it changes boolean lost to true
     public void checkIfLost() {
         Square[] temp = createTempSquares();
         moveUp();
